@@ -4,11 +4,20 @@ from playwright_stealth import Stealth
 import random
 import pandas as pd
 
+async def mouse_moves(page):
+    # Simulate human-like mouse movements
+    for _ in range(5):
+        x=random.randint(0,800)
+        y=random.randint(0,600)
+        await page.mouse .move(x,y,steps=random.randint(10,20))
+        await asyncio.sleep(random.uniform(0.5, 1.5))
+
 async def scroll_humanly_to_bottom(page, scroll_times=10):
     for i in range(scroll_times):
         # Fixed: Single set of quotes and properly awaited
         await page.evaluate("window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});")
         await asyncio.sleep(random.uniform(1, 2))
+        await mouse_moves(page)
 
         new_height = await page.evaluate("document.body.scrollHeight")
         print(f"Scrolled {i+1} times, new height: {new_height}")
@@ -25,7 +34,9 @@ async def main():
 
         page = await context.new_page()
         print("Navigating to Jumia Kenya...")
-        await page.goto("https://www.jumia.co.ke/smartphones", wait_until="domcontentloaded")
+        await page.goto("https://www.jumia.co.ke/smartphones", wait_until="domcontentloaded",timeout=60000)
+        await asyncio.sleep(random.uniform(2,4)) #wait for the page to load completely and simulate human reading
+        await mouse_moves(page)
 
         print("waiting for products to appear...")
         try: 
@@ -52,6 +63,7 @@ async def main():
                     
                     if i % 10 == 0: # Print progress every 10 items
                         print(f"Processed {i} products...")
+                        await mouse_moves(page)
 
                 except Exception as e:
                     print(f"Error extracting product {i+1}")
