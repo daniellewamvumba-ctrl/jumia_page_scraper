@@ -59,3 +59,4 @@ This project was built to practice:
 
 This project is for educational purposes only.
 
+I updated the project making it with a mouse movementfunction but am going to update it to a dashboard and a tool
