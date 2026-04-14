@@ -6,11 +6,14 @@ import pandas as pd
 
 async def mouse_moves(page):
     # Simulate human-like mouse movements
-    for _ in range(5):
-        x=random.randint(0,800)
-        y=random.randint(0,600)
-        await page.mouse .move(x,y,steps=random.randint(10,20))
-        await asyncio.sleep(random.uniform(0.5, 1.5))
+    viewport=page.viewport_size
+    if viewport:
+        width=viewport["width"]
+        height=viewport["height"]
+        x=random.randint(0,width)
+        y=random.randint(0,height)
+        await page.mouse.move(x,y,steps=random.randint(5,15))
+        
 
 async def scroll_humanly_to_bottom(page, scroll_times=10):
     for i in range(scroll_times):
