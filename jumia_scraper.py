@@ -13,7 +13,7 @@ async def mouse_moves(page):
         x=random.randint(0,width)
         y=random.randint(0,height)
         await page.mouse.move(x,y,steps=random.randint(5,15))
-        
+        await asyncio.sleep(1)
 
 async def scroll_humanly_to_bottom(page, scroll_times=10):
     for i in range(scroll_times):
